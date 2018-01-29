@@ -1,10 +1,10 @@
-import * as express from 'express'
-import * as logger from 'morgan'
-import * as helmet from 'helmet'
-import * as compression from 'compression'
 import * as bodyParser from 'body-parser'
+import * as compression from 'compression'
 import * as cookieParser from 'cookie-parser'
+import * as express from 'express'
+import * as helmet from 'helmet'
 import * as mongoose from 'mongoose'
+import * as logger from 'morgan'
 import { route } from './routes'
 
 class Server {
@@ -16,12 +16,16 @@ class Server {
     this.setupExpress()
   }
 
+  public start(port: number, callback: () => void): void {
+    this.express.listen(port, callback)
+    this.connectMongoose()
+  }
+
   /**
    * Setup Express server
    */
   private setupExpress(): void {
     this.middleware()
-    this.connectMongoose()
     this.routes()
   }
 
@@ -35,11 +39,14 @@ class Server {
     mongoose.connect(MONGO_URI)
 
     mongoose.connection.on('connected', () => {
+      // tslint:disable-next-line:no-console
       console.log(`Connected to database ${MONGO_URI}`)
     })
 
     mongoose.connection.on('error', (e) => {
+      // tslint:disable-next-line:no-console
       console.log(`Error connecting to database ${MONGO_URI}`)
+      // tslint:disable-next-line:no-console
       console.log(e)
     })
   }
@@ -58,10 +65,6 @@ class Server {
 
   private routes(): void {
     this.express.use(route)
-  }
-
-  public start(port: Number, callback: Function): void {
-    this.express.listen(port, callback)
   }
 
 }
