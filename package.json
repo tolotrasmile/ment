@@ -4,7 +4,7 @@
   "description": "MongoDB, Express, Node.js and TypeScript",
   "main": "index.js",
   "scripts": {
-    "server": "tsc && nodemon ./build/index.js",
+    "server": "sudo tsc && nodemon ./build/index.js",
     "start": "nodemon ./build/index.js",
     "ts:watch": "tsc -w"
   },

@@ -9,7 +9,7 @@ class TodoResource {
    * @param {e.Response} response
    */
   public findAll(request: Request, response: Response) {
-    TodoModel.find()
+    TodoModel.find(request.query || {})
       .then((items) => response.json(items))
       .catch((error) => response.send(JSON.stringify(error)))
   }

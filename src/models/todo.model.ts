@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose'
 
 // tslint:disable object-literal-sort-keys
 const TodoSchema: Schema = new Schema({
-  created_at: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
@@ -25,9 +25,8 @@ const TodoSchema: Schema = new Schema({
     required: true
   },
   userId: {
-    type: Number,
-    default: 0,
-    required: true
+    type: String,
+    default: null
   }
 })
 
