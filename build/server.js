@@ -13,6 +13,9 @@ var Server = /** @class */ (function () {
         this.express = express();
         this.setupExpress();
     }
+    Server.prototype.start = function (port, callback) {
+        this.express.listen(port, callback);
+    };
     /**
      * Setup Express server
      */
@@ -39,7 +42,6 @@ var Server = /** @class */ (function () {
      * Setup Express middlewares
      */
     Server.prototype.middleware = function () {
-        // express middleware
         this.express.use(bodyParser.urlencoded({ extended: true }));
         this.express.use(bodyParser.json());
         this.express.use(cookieParser());
@@ -49,9 +51,6 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.routes = function () {
         this.express.use(routes_1.route);
-    };
-    Server.prototype.start = function (port, callback) {
-        this.express.listen(port, callback);
     };
     return Server;
 }());
