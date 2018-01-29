@@ -4,7 +4,9 @@
   "description": "MongoDB, Express, Node.js and TypeScript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "tsc && nodemon ./build/index.js",
+    "start": "nodemon ./build/index.js",
+    "ts:watch": "tsc -w"
   },
   "author": "",
   "license": "ISC",
