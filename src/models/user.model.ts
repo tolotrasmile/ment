@@ -20,10 +20,10 @@ const UserSchema: Schema = new Schema({
     default: Date.now,
     required: true
   },
-  todos: {
+  todos: [{
     type: Schema.Types.ObjectId,
     ref: 'Todo'
-  }
+  }]
 })
 
 export let UserModel = model('User', UserSchema)

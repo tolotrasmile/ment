@@ -9,7 +9,7 @@ class UserResource {
    * @param {e.Response} response
    */
   public findAll(request: Request, response: Response) {
-    UserModel.find(request.query || {})
+    UserModel.find(request.query || {}).populate('todos', 'title comment')
       .then((items) => response.json(items))
       .catch((error) => response.send(JSON.stringify(error)))
   }
@@ -20,7 +20,7 @@ class UserResource {
    * @param {e.Response} response
    */
   public findById(request: Request, response: Response) {
-    UserModel.findById(request.params.id).populate('todos', 'title')
+    UserModel.findById(request.params.id).populate({path : 'posts', populate : {path : 'user'}})
       .then((user) => response.json(user))
       .catch((error) => response.send(JSON.stringify(error)))
   }

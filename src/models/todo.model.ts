@@ -24,9 +24,9 @@ const TodoSchema: Schema = new Schema({
     default: [],
     required: true
   },
-  userId: {
-    type: String,
-    default: null
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 

@@ -5,6 +5,7 @@ import * as express from 'express'
 import * as helmet from 'helmet'
 import * as mongoose from 'mongoose'
 import * as logger from 'morgan'
+import * as cors from 'cors'
 import { route } from './routes'
 
 class Server {
@@ -57,6 +58,7 @@ class Server {
   private middleware(): void {
     this.express.use(bodyParser.urlencoded({ extended: true }))
     this.express.use(bodyParser.json())
+    this.express.use(cors())
     this.express.use(cookieParser())
     this.express.use(logger('dev'))
     this.express.use(compression())
