@@ -27,5 +27,3 @@ Run npm script
 ```
 $ npm run server
 ```
-
-## Config
