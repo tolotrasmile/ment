@@ -20,7 +20,7 @@ class UserResource {
    * @param {e.Response} response
    */
   public findById(request: Request, response: Response) {
-    UserModel.findById(request.params.id).populate({path : 'posts', populate : {path : 'user'}})
+    UserModel.findById(request.params.id).populate({ path: 'posts', populate: { path: 'user' } })
       .then((user) => response.json(user))
       .catch((error) => response.send(JSON.stringify(error)))
   }
@@ -34,7 +34,7 @@ class UserResource {
 
     const username = request.body.username
     const password = request.body.password
-    const email    = request.body.email
+    const email = request.body.email
 
     const user = { username, password, email }
 

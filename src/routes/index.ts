@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { todoRoutes } from './todos.route'
 import { userRoutes } from './users.route'
+import pageController from '../controllers/index'
 
 const router: Router = Router()
-router.get('/', (req, res) => res.json({ message: 'Connected to server' }))
+router.get('/', pageController.index)
 router.use(todoRoutes)
 router.use(userRoutes)
 

@@ -40,14 +40,11 @@ class Server {
     mongoose.connect(MONGO_URI)
 
     mongoose.connection.on('connected', () => {
-      // tslint:disable-next-line:no-console
       console.log(`Connected to database ${MONGO_URI}`)
     })
 
     mongoose.connection.on('error', (e) => {
-      // tslint:disable-next-line:no-console
       console.log(`Error connecting to database ${MONGO_URI}`)
-      // tslint:disable-next-line:no-console
       console.log(e)
     })
   }
@@ -56,6 +53,7 @@ class Server {
    * Setup Express middlewares
    */
   private middleware(): void {
+    this.express.set('twig options', { strict_variables: false })
     this.express.use(bodyParser.urlencoded({ extended: true }))
     this.express.use(bodyParser.json())
     this.express.use(cors())
