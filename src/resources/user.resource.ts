@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { UserModel } from '../models/user.model'
+import { default as handleError } from './common.resource'
 
 class UserResource {
 
@@ -11,7 +12,7 @@ class UserResource {
   public findAll(request: Request, response: Response) {
     UserModel.find(request.query || {}).populate('todos', 'title comment')
       .then((items) => response.json(items))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**
@@ -22,7 +23,7 @@ class UserResource {
   public findById(request: Request, response: Response) {
     UserModel.findById(request.params.id).populate({ path: 'posts', populate: { path: 'user' } })
       .then((user) => response.json(user))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**
@@ -40,7 +41,7 @@ class UserResource {
 
     UserModel.create(user)
       .then(() => response.json(user))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**

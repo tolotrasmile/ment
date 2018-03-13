@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { TodoModel } from '../models/todo.model'
+import { default as handleError } from './common.resource'
 
 class TodoResource {
 
@@ -11,7 +12,7 @@ class TodoResource {
   public findAll(request: Request, response: Response) {
     TodoModel.find(request.query || {})
       .then((items) => response.json(items))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**
@@ -22,7 +23,7 @@ class TodoResource {
   public findById(request: Request, response: Response) {
     TodoModel.findById(request.params.id)
       .then((todo) => response.json(todo))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**
@@ -40,7 +41,7 @@ class TodoResource {
 
     TodoModel.create(todo)
       .then(() => response.json(todo))
-      .catch((error) => response.send(JSON.stringify(error)))
+      .catch((error) => handleError(response, error))
   }
 
   /**
