@@ -7,6 +7,7 @@ import * as mongoose from 'mongoose'
 import * as logger from 'morgan'
 import * as cors from 'cors'
 import { route } from './routes'
+import * as path from 'path'
 
 class Server {
 
@@ -54,6 +55,7 @@ class Server {
    */
   private middleware(): void {
     this.express.set('twig options', { strict_variables: false })
+    this.express.use(express.static(path.join(__dirname, '../public')))
     this.express.use(bodyParser.urlencoded({ extended: true }))
     this.express.use(bodyParser.json())
     this.express.use(cors())
