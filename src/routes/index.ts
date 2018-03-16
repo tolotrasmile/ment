@@ -1,7 +1,7 @@
 import { Router } from 'express'
+import pageController from '../controllers/index'
 import { todoRoutes } from './todos.route'
 import { userRoutes } from './users.route'
-import pageController from '../controllers/index'
 
 const router: Router = Router()
 router.get('/', pageController.index)

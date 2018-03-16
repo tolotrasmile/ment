@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { TodoModel } from '../models/todo.model'
 import { UserModel } from '../models/user.model'
 import { default as handleError } from './common.resource'
 
@@ -10,7 +11,8 @@ class UserResource {
    * @param {e.Response} response
    */
   public findAll(request: Request, response: Response) {
-    UserModel.find(request.query || {}).populate('todos', 'title comment')
+    UserModel.find(request.query || {})
+      .populate({ path: 'todos' , select: 'title', model: 'Todo'})
       .then((items) => response.json(items))
       .catch((error) => handleError(response, error))
   }
@@ -21,8 +23,16 @@ class UserResource {
    * @param {e.Response} response
    */
   public findById(request: Request, response: Response) {
-    UserModel.findById(request.params.id).populate({ path: 'posts', populate: { path: 'user' } })
-      .then((user) => response.json(user))
+    UserModel.findById(request.params.id)
+      .then((user) => {
+        if (user) {
+          TodoModel.find({ user: user._id }).then((todos) => {
+            response.json({...user, todos: [...todos] })
+          })
+        } else {
+          handleError(response, {message: 'Not found'})
+        }
+      })
       .catch((error) => handleError(response, error))
   }
 
@@ -37,7 +47,7 @@ class UserResource {
     const password = request.body.password
     const email = request.body.email
 
-    const user = { username, password, email }
+    const user = new UserModel({ username, password, email })
 
     UserModel.create(user)
       .then(() => response.json(user))

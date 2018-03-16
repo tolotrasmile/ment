@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { TodoModel } from '../models/todo.model'
+import { UserModel } from '../models/user.model'
 import { default as handleError } from './common.resource'
 
 class TodoResource {
@@ -11,6 +12,7 @@ class TodoResource {
    */
   public findAll(request: Request, response: Response) {
     TodoModel.find(request.query || {})
+      .populate({ path: 'user' , select: 'username -_id'})
       .then((items) => response.json(items))
       .catch((error) => handleError(response, error))
   }
@@ -22,6 +24,7 @@ class TodoResource {
    */
   public findById(request: Request, response: Response) {
     TodoModel.findById(request.params.id)
+      .populate({ path: 'user' , select: 'username -_id'})
       .then((todo) => response.json(todo))
       .catch((error) => handleError(response, error))
   }
@@ -32,12 +35,11 @@ class TodoResource {
    * @param {e.Response} response
    */
   public create(request: Request, response: Response) {
-
     const title = request.body.title
-    const userId = request.body.userId
+    const user = request.body.user
     const description = request.body.description
 
-    const todo = { title, userId, description, completed: false, date: new Date() }
+    const todo = { title, user, description, completed: false, date: new Date() }
 
     TodoModel.create(todo)
       .then(() => response.json(todo))
